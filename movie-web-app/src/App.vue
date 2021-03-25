@@ -2,6 +2,8 @@
   <div id="app">
     <Tickets v-for="(c,pos) in ticketsInfo.movies" :key="pos"
   v-bind:movieName="c.movieName" v-bind:ticketNumber="c.ticketNumber" v-bind:theatreNumber="c.theatreNumber" v-bind:seatNumber="c.seatNumber" v-bind:movieRating="c.movieRating" v-bind:movieDate="c.movieDate" v-bind:imageurl="imgurl" ></Tickets><br>
+  <Movie :movie-name="movies.movieTitle" :movie-time="movies.movieTimes" :movieImgUrl='movies.movieImgUrl' />
+
   </div>
 </template>
 
@@ -9,15 +11,23 @@
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
 import Tickets from './components/Tickets.vue';
+import Movie from './components/Movie.vue';
 
 
 @Component({
   components: {
-    HelloWorld, Tickets
+    HelloWorld, Tickets, Movie
   },
 })
 export default class App extends Vue {
-readonly imgurl =  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
+
+  readonly movies = { 
+    movieTimes: ["11:30pm", "12:00pm"],
+    movieTitle: "The Joker",
+    movieImgUrl: "https://fanart.tv/fanart/movies/475557/movieposter/joker-5d6732e7bf212.jpg"
+  }
+
+  readonly imgurl =  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
 
   readonly ticketsInfo = {
   movies: [
