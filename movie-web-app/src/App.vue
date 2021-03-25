@@ -1,20 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <Movie :movie-name="movies.movieTitle" :movie-time="movies.movieTimes" :movieImgUrl='movies.movieImgUrl' />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import Movie from './components/Movie.vue';
 
 @Component({
   components: {
-    HelloWorld,
+    //HelloWorld,
+    Movie,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  readonly movies = { 
+    movieTimes: ["11:30pm", "12:00pm"],
+    movieTitle: "The Joker",
+    movieImgUrl: "https://fanart.tv/fanart/movies/475557/movieposter/joker-5d6732e7bf212.jpg"
+  }
+}
 </script>
 
 <style>
