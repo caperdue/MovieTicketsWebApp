@@ -12,7 +12,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
 import Tickets from './components/Tickets.vue';
 import Movie from './components/Movie.vue';
 import FinalizePurchase from './components/FinalizePurchase.vue';
@@ -22,7 +21,11 @@ import PrintTicket from './components/PrintTicket.vue';
 
 @Component({
   components: {
+<<<<<<< HEAD
     HelloWorld, Tickets, Movie, FinalizePurchase, PurchaseConfirmation, PrintTicket,
+=======
+    Tickets, Movie
+>>>>>>> 00c8648b9289031b809abc8fa14ffb4715d4b157
   },
 })
 export default class App extends Vue {
