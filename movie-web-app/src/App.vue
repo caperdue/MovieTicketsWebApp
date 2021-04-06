@@ -13,6 +13,7 @@ import HeaderNav from "./components/HeaderNav.vue";
 import FinalizePurchase from "./components/FinalizePurchase.vue";
 import PurchaseConfirmation from "./components/PurchaseConfirmation.vue";
 import PrintTicket from "./components/PrintTicket.vue";
+console.log("add")
 
 @Component({
   components: {
