@@ -42,8 +42,9 @@ export default class Movie extends Vue {
 .container {
   overflow:hidden;
   padding:0;
-  width: 60%;
+  width: 95%;
   font-size: 1rem;
+  margin:0;
 }
 
 ul {
