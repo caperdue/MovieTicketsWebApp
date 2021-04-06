@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <Tickets v-for="(c,pos) in ticketsInfo.movies" :key="pos"
-  v-bind:movieName="c.movieName" v-bind:ticketNumber="c.ticketNumber" v-bind:theatreNumber="c.theatreNumber" v-bind:seatNumber="c.seatNumber" v-bind:movieRating="c.movieRating" v-bind:movieDate="c.movieDate" v-bind:imageurl="imgurl" ></Tickets><br>
-  <Movie :movie-name="movies.movieTitle" :movie-time="movies.movieTimes" :movieImgUrl='movies.movieImgUrl' />
+    <HeaderNav />
+   <router-view></router-view>
 
   </div>
 </template>
@@ -11,11 +10,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Tickets from './components/Tickets.vue';
 import Movie from './components/Movie.vue';
+import HeaderNav from './components/HeaderNav.vue'
 
 
 @Component({
   components: {
-    Tickets, Movie
+    Tickets, Movie, HeaderNav
   },
 })
 export default class App extends Vue {
@@ -43,9 +43,11 @@ export default class App extends Vue {
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  -moz-box-sizing: border-box;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
 }
 </style>
