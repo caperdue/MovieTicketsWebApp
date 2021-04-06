@@ -21,6 +21,7 @@ import PrintTicket from "./components/PrintTicket.vue";
     PurchaseConfirmation,
     PrintTicket,
     Tickets,
+    HeaderNav
   },
 })
 export default class App extends Vue {
