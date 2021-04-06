@@ -36,7 +36,7 @@ export default class Tickets extends Vue {
   border-radius: 0.5em;
   padding: 1em;
   margin: 0.6em;
-  max-width: 50%;
+  width: 90%;
 }
 
 div {
