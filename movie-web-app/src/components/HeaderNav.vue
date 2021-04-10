@@ -22,7 +22,8 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item @click="browseMovies">Browse Movies</b-nav-item>
           <b-nav-item>My Tickets</b-nav-item>
-          <b-nav-item @click="manageUser">Sign In/Sign Up</b-nav-item>
+          <b-nav-item @click="manageUser" v-if="!this.$appAuth.currentUser">Sign In/Sign Up</b-nav-item>
+           <b-nav-item @click="signOut" v-if="this.$appAuth.currentUser">Sign Out</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -32,17 +33,30 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Movie from "./Movie.vue";
+import firebase from "firebase/app";
+import "firebase/auth";
+import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
+
 
 
 @Component({})
 export default class HeaderNav extends Vue {
+    readonly $appAuth;
     readonly $router;
     browseMovies() {
-       this.$router.replace({ path: "/browse"})
-
+       this.$router.replace({ path: "/browse" });
     }
     manageUser(): void {
-      this.$router.push({ path: "/signin"})
+      this.$router.push({ path: "/signin" });
+    }
+    signOut(): void {
+      this.$appAuth.signOut()
+      .then(() => {
+        alert("Successfully signed out.");
+      })
+      .catch((err: any) => {
+        alert("Error signing out: " + err);
+      })
     }
 }
 </script>

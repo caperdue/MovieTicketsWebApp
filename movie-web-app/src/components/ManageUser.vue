@@ -1,34 +1,58 @@
 <template>
   <div>
-    <h1>Sign In / Sign up</h1>
+    <h1>Sign In / Sign Up</h1>
     <div id="form">
-      <input type="text" placeholder="Email" />
-      <input type="text" placeholder="Password" />
-      <button :disabled="noInput" @click="createAccount">
+      <form>
+      <input type="text" placeholder="Email" v-model="email" />
+      <input type="text" placeholder="Password" v-model="password" />
+      <button @click.prevent="createAccount">
         Sign Up
       </button>
-      <button :disabled="noInput" @click="authenticate">
+      <button @click.prevent="authenticate">
         Sign In
       </button>
+      </form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import Movie from "./Movie.vue";
+import { Component, Vue, Prop } from "vue-property-decorator"
+import { FirebaseFirestore } from "@firebase/firestore-types"
+import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
 
 @Component({
   components: {},
 })
 export default class ManageUser extends Vue {
+  private email = ""
+  private password = ""
   readonly $router;
+  readonly $appDB!: FirebaseFirestore;
+  readonly $appAuth!: FirebaseAuth;
 
   authenticate() {
-    this.$router.replace({path: "/browse"})
+    console.log("RAN")
+    this.$appAuth.signInWithEmailAndPassword(this.email, this.password)
+    .then((u: UserCredential) => {
+      alert("Successfully signed in!");
+      this.$router.replace({path: "/browse"});
+    })
+    .catch((err: any) => {
+      alert("Error signing in: " + err);
+    })
   }
+
   createAccount() {
-    this.$router.replace({path: "/browse"})
+    console.log("RAN2")
+    this.$appAuth.createUserWithEmailAndPassword(this.email, this.password)
+    .then((u: UserCredential) => {
+      alert("Successfully signed up!");
+      this.$router.replace({path: "/browse"});
+    })
+    .catch((err: any) => {
+      alert("Error signing up: " + err);
+    }) 
   }
 }
 </script>
