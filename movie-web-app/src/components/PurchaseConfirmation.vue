@@ -6,10 +6,10 @@
     <img id="movieImg" :src="movieUrl"/>
     <p><b>Date of Purchase: </b>{{dateOfPurchase}}</p>
     <p><b>Number of Tickets: </b>{{numTickets}}</p>
-    <p class="totals">Ticket Total: ${{ticketTotal.toFixed(2)}}</p><br>
-    <p class="totals">Tax: ${{taxAmount.toFixed(2)}}</p><br>
-    <p class="totals"><b>Total: </b>${{totalAmount.toFixed(2)}}</p><br><br>
-    <button>Print Ticket</button>
+    <p class="totals">Ticket Total: ${{ticketTotal}}</p><br>
+    <p class="totals">Tax: ${{taxAmount}}</p><br>
+    <p class="totals"><b>Total: </b>${{totalAmount}}</p><br><br>
+    <button @click="print">Print Ticket</button>
     </div>
   </div>
 </template>
@@ -33,6 +33,13 @@ export default class PurchaseConfirmation extends Vue {
   @Prop() readonly taxAmount!: number;
   @Prop() readonly totalAmount!: number;
   @Prop() private movieUrl!: string;
+
+
+  readonly $router;
+
+  print() {
+    this.$router.replace({path: "/print"})
+  }
 }
 </script>
 

@@ -43,9 +43,8 @@ readonly imgurl =  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR
 </script>
 
 <style>
-#printTicket {
+#ticketContent {
   display: inline-block;
-  border: 2px solid;
   border-radius: 0.5em;
   padding: 1em;
   margin: 0.6em;

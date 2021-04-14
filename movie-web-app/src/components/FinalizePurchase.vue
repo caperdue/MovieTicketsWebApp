@@ -6,7 +6,9 @@
     <p><b>Number of Tickets: </b>{{numTickets}}</p>
     <p><b>Time: </b>{{movieTime}}</p>
     <p><b>Credit Card Number: </b>{{creditCardNumber}}</p>
-    <button>Purchase</button>
+    <button @click="purchase">Purchase</button>
+    <button @click="backToBrowse">Return to Browse Movies</button>
+
     </div>
   </div>
 </template>
@@ -28,6 +30,16 @@ export default class FinalizePurchase extends Vue {
   @Prop() readonly movieTime!: string;
   @Prop() readonly creditCardNumber!: number;
 
+  
+  readonly $router;
+
+  purchase() {
+    this.$router.replace({path: "/confirmation"})
+  }
+
+  backToBrowse() {
+    this.$router.replace({path: "/browse"})
+  }
 }
 </script>
 
