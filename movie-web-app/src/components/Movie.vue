@@ -1,94 +1,111 @@
 <template>
-<div class="container">
-  <div id="title">
-    <div id="information">
-      <h1>{{movieName}}</h1>
-      <p>Rated R</p>
-    </div>
-    <div>
-      <div>
-        <img :src="movieImgUrl"/>
-        <p>Description textDescrkhlsdfkgjhdfkg kjfhsdfkjhj</p>
-      </div>
-    </div>
-  </div>
-  <div id="times"> 
-    <h2>Times</h2>
-    <ul>
-      <li v-for="item in movieTime" :key="item">
-        {{item}}
-      </li>
-    </ul>
-  </div>
+<div class="movie">
+  <b-card>
+  <b-media right-align vertical-align="center">
+    <template #aside>
+      <b-img class="mx-0" :src="movieImgUrl"></b-img>
+    </template>
+    <h5 class="mt-0 mb-2">{{movieName}}</h5>
+    <h6 class="pt-3">View Times</h6>
+    <button @click="purchaseTickets" class="mx-1 px-1" v-for="(movie, index) in movieTimes" :key="index">
+      {{movie}}
+    </button>
+  </b-media>
+     <b-button @mouseover="getDetails" v-b-popover.hover.html="popoverMethod" title="Movie Details" variant="success">
+          View Movie Details
+     </b-button>
+  </b-card>
 </div>
- 
 </template>
-
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
+import axios, { AxiosResponse } from "axios";
+import { FirebaseFirestore } from "@firebase/firestore-types"
+import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
 
 @Component
 export default class Movie extends Vue {
+  readonly $router;
+  readonly $appDB!: FirebaseFirestore;
+  readonly $appAuth!: FirebaseAuth;
   @Prop() private movieName!: string;
   @Prop() private movieImgUrl!: string;
   @Prop() private movieTime!: string;
+  @Prop() private movieYear!: string;
+  @Prop() private movieId!: string;
+
+  private moviePlot = "";
+
+  private randomMovieTimeArray = {
+    minutes: ["15", "30", "45", "00"],
+    time: ["AM", "PM"],
+  }
+  private movieTimes: any[] = [];
+  private movieRating = "";
+  private movieGenre = "";
+  private movieRuntime = "";
+
+  purchaseTickets() {
+    this.$router.push()
+  }
+  getDetails() {
+    axios.get("http://www.omdbapi.com/?apikey=91906364", {
+      params: {
+        i: this.movieId,
+      }
+    })
+    .then((r: AxiosResponse) => {
+      this.moviePlot = r.data.Plot;
+      this.movieRating = r.data.Rated
+      this.movieGenre = r.data.Genre
+      this.movieRuntime = r.data.Runtime
+    })
+    
+    .catch((err: any) => {
+      console.log("Error fetching data: " + err);
+    })
+  }
+  popoverMethod() {
+    //Return HTML for content and also grab movie info upon request 
+    return '<p>Released in ' + this.movieYear + '</p>' +
+    '<h6>Summary</h6>' + '<p>' + (this.moviePlot === "" ? 'N/A' : this.moviePlot) + '</p>' + 
+    '<p>Rated ' + (this.movieRating === "" ? 'N/A' : this.movieRating) +
+     '</p>' + '<p>Genre: ' + (this.movieGenre === "" ? 'N/A' : this.movieGenre) + '</p>' +
+     '<p>Runtime: ' + (this.movieRuntime === "" ? 'N/A' : this.movieRuntime) + '</p>'
+  }
+  
+  generateMovieTimes() {
+    for(let i = 0; i <= Math.floor(Math.random() * 30); i++) {
+      this.movieTimes.push(`${Math.floor(Math.random()*12 + 1)}:${this.randomMovieTimeArray.minutes[Math.floor(Math.random()*this.randomMovieTimeArray.minutes.length)]}
+          ${this.randomMovieTimeArray.time[Math.floor(Math.random() * 2)]}`);
+    }
+  }
+  created(){
+    this.generateMovieTimes();
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.container {
-  overflow:hidden;
-  padding:0;
-  width: 95%;
-  font-size: 1rem;
-  margin:0;
-}
-
-ul {
-  list-style-type: none;
-  border:1px solid rgba(0,0,0, 1);
-  padding: 0;
-  display:inline-block;
-  text-align: center;
-
-}
-li {
-  padding: 15px;
-}
-li:hover {
-  background-color: rgba(0,0,0, 0.1);
-}
-
-.container #title {
-  padding:15px;
-  margin:0;
-  display:inline-block;
-  width:75%;
-  text-align:left;
-  border-left: 30px solid red;
-}
-.container #times {
-  padding:25px;
-  float:right;
-  width: 25%;
-}
-
-
-.container #title #information p {
-  text-align:right;
-  border-bottom: 1px solid rgba(0,0,0, 0.1)
+.movie {
+  width: 80%;
 }
 img {
-  width:40%;
-  padding-right:10px;
-  float:left;
+  height: 200px;
+  width: 200px
 }
-h1 {
-  border-bottom: 1px solid rgba(0,0,0, 0.1)
+button {
+  border: 1px solid black;
+  text-align:center;
+  margin-right: 10px;
+  display:inline-block;
 }
-
+.popov {
+  float:right;
+}
+button:hover {
+  background: rgba(255,0,0, 0.5)
+}
 
 </style>
