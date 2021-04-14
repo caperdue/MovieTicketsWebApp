@@ -17,16 +17,9 @@
 </template>
 
 <script lang="ts">
-<<<<<<< HEAD
-import { Component, Vue } from "vue-property-decorator";
-import Movie from "./Movie.vue";
-import VueRouter,{ RouteConfig } from "vue-router";
-
-=======
 import { Component, Vue, Prop } from "vue-property-decorator"
 import { FirebaseFirestore } from "@firebase/firestore-types"
 import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
->>>>>>> dfca838fe7b6168708604e1d640531838483a169
 
 @Component({
   components: {},
