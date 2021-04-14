@@ -41,6 +41,7 @@ export default class Tickets extends Vue {
 
 div {
     overflow: hidden;
+
 }
 
 #date, #rating{

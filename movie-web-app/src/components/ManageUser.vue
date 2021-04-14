@@ -17,6 +17,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Movie from "./Movie.vue";
+import VueRouter,{ RouteConfig } from "vue-router";
+
 
 @Component({
   components: {},
