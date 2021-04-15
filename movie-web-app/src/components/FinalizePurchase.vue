@@ -27,6 +27,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import * as uuid from "uuid";
 
 @Component({
   components: {},
@@ -37,9 +38,15 @@ export default class FinalizePurchase extends Vue {
   private movieTime = "";
   private showDate = "";
   private creditCardNumber: null | number = null;
+  private dateOfPurchase = "";
+  private purchaseID = -1;
 
   readonly $route;
   readonly $router;
+  readonly $appDB;
+  readonly $appAuth;
+
+  private userUID = 0;
 
   purchase() {
     if (this.numTickets > 0 && this.creditCardNumber) {
@@ -53,6 +60,21 @@ export default class FinalizePurchase extends Vue {
         date: this.showDate,
       },
     });
+
+    //Send the tickets to the database
+    this.purchaseID = uuid.v1();
+    this.$appDB.collection(`users/${this.userUID}/purchases`)
+    .add(
+      {
+        name: this.movieName,
+        numTickets: this.numTickets,
+        date: this.showDate,
+        time: this.movieTime,
+        cost: this.numTickets * 10,
+        purchaseDate: this.dateOfPurchase,
+        purchaseID: this.purchaseID,
+      })
+
     }
   }
 
@@ -65,6 +87,8 @@ export default class FinalizePurchase extends Vue {
     this.movieName = this.$route.params.name;
     this.movieTime = this.$route.params.time;
     this.showDate = this.$route.params.date;
+    this.userUID = this.$appAuth.currentUser?.uid;
+    this.dateOfPurchase = new Date(Date.now()).toDateString();
   }
 }
 </script>

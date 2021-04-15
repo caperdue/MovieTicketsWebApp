@@ -37,23 +37,25 @@ import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
 
 @Component
 export default class Movie extends Vue {
-  readonly $router;
-  readonly $appDB!: FirebaseFirestore;
-  readonly $appAuth!: FirebaseAuth;
-
   @Prop() private movieYear!: string;
   @Prop() private showDate!: string;
   @Prop() private movie: any;
 
-  private movieDetails: any = {};
-  private selectedTime!: string;
-
+  // Define movie detail information
   private randomMovieTimeArray = {
     minutes: ["15", "30", "45", "00"],
     time: ["AM", "PM"],
   };
   private movieTimes: any[] = [];
+  private selectedTime!: string;
+  private movieDetails: any = {};
 
+  // References for routing, database, and authentication
+  readonly $router;
+  readonly $appDB!: FirebaseFirestore;
+  readonly $appAuth!: FirebaseAuth;
+
+  // Redirect user to complete a purchase
   goToPurchase(e) {
     // Get time of selected button
     this.selectedTime = e.target.innerText;
@@ -68,6 +70,7 @@ export default class Movie extends Vue {
        });
   }
 
+  // Get details of hovered movie
   getDetails() {
     axios
       .get("http://www.omdbapi.com/?apikey=91906364", {
@@ -91,9 +94,9 @@ export default class Movie extends Vue {
       });
   }
 
+  // Render HTML for selected movie content in popover
   popoverMethod() {
     this.getDetails();
-    //Return HTML for content and also grab movie info upon request
     return (
       "<p>Released in " +
       this.movieDetails.year === undefined ? "N/A": this.movieDetails.year +
@@ -114,6 +117,7 @@ export default class Movie extends Vue {
     );
   }
 
+  // Generate the random movie times for the selected date
   generateMovieTimes() {
     for (let i = 0; i <= Math.floor(Math.random() * 30); i++) {
       this.movieTimes.push(`${Math.floor(Math.random() * 12 + 1)}:${
@@ -124,15 +128,16 @@ export default class Movie extends Vue {
           ${this.randomMovieTimeArray.time[Math.floor(Math.random() * 2)]}`);
     }
   }
-
+  
+  // Generate movie times upon creation
   created() {
     this.generateMovieTimes();
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .movie {
   text-align: left;
 }

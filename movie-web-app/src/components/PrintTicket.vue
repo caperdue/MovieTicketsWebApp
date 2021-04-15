@@ -51,8 +51,6 @@ readonly imgurl =  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR
   width: 50%;
 }
 
-
-
 div {
     overflow: hidden;
 }

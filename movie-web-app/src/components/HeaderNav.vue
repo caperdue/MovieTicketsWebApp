@@ -19,9 +19,9 @@
 
       <b-collapse id="navbar-toggle-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item @click="browseMovies">Browse Movies</b-nav-item>
-          <b-nav-item v-if="user">My Tickets</b-nav-item>
-          <b-nav-item v-if="!user" @click="manageUser">Sign In/Sign Up</b-nav-item>
+          <b-nav-item @click="() => this.$router.push({ path: '/browse' })">Browse Movies</b-nav-item>
+          <b-nav-item @click="() => this.$router.push({path: '/tickets'})" v-if="user">My Tickets</b-nav-item>
+          <b-nav-item v-if="!user" @click="() => this.$router.push({ path: '/' })">Sign In/Sign Up</b-nav-item>
           <b-nav-item v-else @click="signOut">Sign Out</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -38,17 +38,13 @@ import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
 
 @Component({})
 export default class HeaderNav extends Vue {
+    private user: string | null = null;
+
+    // References for authentication and routing
     readonly $appAuth!: FirebaseAuth;
     readonly $router;
-    private user: string | null = null;
-    browseMovies(): void {
-       this.$router.push({ path: "/browse" });
-    }
 
-    manageUser(): void {
-      this.$router.push({ path: "/" });
-    }
-
+    // Sign out the user
     signOut(): void {
       this.$appAuth.signOut()
       .then(() => {
@@ -60,10 +56,12 @@ export default class HeaderNav extends Vue {
       })
     }
 
+    // Log in the user
     userLoggedIn(): boolean {
       return this.$appAuth.currentUser?.uid !== undefined;
     }
 
+    // Check if user is logged in, if so, set user UID
     created() {
       this.$appAuth.onAuthStateChanged(user => {
         if (user) {

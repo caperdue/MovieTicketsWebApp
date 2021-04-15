@@ -4,7 +4,7 @@
     <div id="form">
       <form>
       <input type="text" placeholder="Email" v-model="email" />
-      <input type="text" placeholder="Password" v-model="password" />
+      <input type="password" placeholder="Password" v-model="password" />
       <button @click.prevent="createAccount">
         Sign Up
       </button>
@@ -18,21 +18,22 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator"
-import { FirebaseFirestore } from "@firebase/firestore-types"
 import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
 
-@Component({
-  components: {},
-})
+@Component({})
 
 export default class ManageUser extends Vue {
+
+  // Define attributes for user management
   private email = "";
   private password = "";
+
+  // Provide references for routing and authentication
   readonly $router;
-  readonly $appDB!: FirebaseFirestore;
   readonly $appAuth!: FirebaseAuth;
 
-  authenticate() {
+  // Log in the user
+  authenticate(): void {
     this.$appAuth.signInWithEmailAndPassword(this.email, this.password)
     .then((u: UserCredential) => {
       alert("Successfully signed in!");
@@ -43,7 +44,8 @@ export default class ManageUser extends Vue {
     })
   }
 
-  createAccount() {
+  // Create an account for the user
+  createAccount(): void {
     this.$appAuth.createUserWithEmailAndPassword(this.email, this.password)
     .then((u: UserCredential) => {
       alert("Successfully signed up!");
@@ -56,8 +58,8 @@ export default class ManageUser extends Vue {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 #form {
   margin-top: 40px;
   padding-left: 10%;

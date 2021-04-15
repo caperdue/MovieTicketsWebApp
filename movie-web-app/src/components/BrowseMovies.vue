@@ -20,12 +20,16 @@ import axios, { AxiosResponse } from "axios";
   },
 })
 export default class BrowseMovies extends Vue {
+  // Define and initialize movie list
   private movieList: any[] = [];
+
+  // Set default value for selected movie date to today
   private selectedDate = new Date(Date.now()).toLocaleDateString('en-US', {
   day: '2-digit',
   month: '2-digit',
   year: 'numeric',
 });
+  // Reference for authentication
   readonly $appAuth;
 
   mounted() {
@@ -33,6 +37,7 @@ export default class BrowseMovies extends Vue {
     this.loadMovies();
   }
 
+  // Load movies to be displayed
   loadMovies() {
     // Reset movie list
     this.movieList = [];
@@ -57,6 +62,7 @@ export default class BrowseMovies extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 div {
     text-align:center;
     margin-top: 30px;
