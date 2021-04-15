@@ -42,7 +42,7 @@ readonly imgurl =  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR
 
 </script>
 
-<style>
+<style scoped>
 #ticketContent {
   display: inline-block;
   border-radius: 0.5em;

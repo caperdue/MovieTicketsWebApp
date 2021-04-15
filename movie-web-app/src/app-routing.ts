@@ -6,39 +6,38 @@ import FinalizePurchase from "./components/FinalizePurchase.vue";
 import PurchaseConfirmation from "./components/PurchaseConfirmation.vue";
 import PrintTicket from "./components/PrintTicket.vue";
 
-
 Vue.use(VueRouter);
 const myRoutes: Array<RouteConfig> = [
   {
-    name: "BrowseMovies",
+    name: "Manage User",
     path: "/",
-    component: BrowseMovies,
+    component: ManageUser,
   },
+
   {
     name: "Browse Movies",
     path: "/browse",
     component: BrowseMovies,
   },
-  {
-    name: "Manage User",
-    path: "/signin",
-    component: ManageUser,
-  },
+
   {
     name: "Finalize Purchase",
     path: "/finalize",
     component: FinalizePurchase,
   },
+
   {
     name: "Purchase Confirmation",
     path: "/confirmation",
     component: PurchaseConfirmation,
   },
+
   {
     name: "Print Ticket",
     path: "/print",
     component: PrintTicket,
   },
+  
 ];
 
 export const AppRouter = new VueRouter({ 

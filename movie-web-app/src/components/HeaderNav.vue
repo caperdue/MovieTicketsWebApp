@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable type="dark" variant="dark">
-      <b-navbar-brand href="#">Star Cinema</b-navbar-brand>
+      <b-navbar-brand :to="{name: 'Browse Movies'}">Star Cinema</b-navbar-brand>
       <b-nav-form class="ml-auto pr-4">
         <b-form-input
           size="sm"
@@ -10,7 +10,6 @@
         ></b-form-input>
         <b-button size="sm" class="my-2 my-sm-2" type="submit">Search</b-button>
       </b-nav-form>
-      
       <b-navbar-toggle target="navbar-toggle-collapse">
         <template #default="{ expanded }">
           <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
@@ -21,9 +20,9 @@
       <b-collapse id="navbar-toggle-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item @click="browseMovies">Browse Movies</b-nav-item>
-          <b-nav-item>My Tickets</b-nav-item>
-          <b-nav-item @click="manageUser" v-if="!this.$appAuth.currentUser">Sign In/Sign Up</b-nav-item>
-           <b-nav-item @click="signOut" v-if="this.$appAuth.currentUser">Sign Out</b-nav-item>
+          <b-nav-item v-if="user">My Tickets</b-nav-item>
+          <b-nav-item v-if="!user" @click="manageUser">Sign In/Sign Up</b-nav-item>
+          <b-nav-item v-else @click="signOut">Sign Out</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -37,25 +36,41 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
 
-
-
 @Component({})
 export default class HeaderNav extends Vue {
-    readonly $appAuth;
+    readonly $appAuth!: FirebaseAuth;
     readonly $router;
-    browseMovies() {
-       this.$router.replace({ path: "/browse" });
+    private user: string | null = null;
+    browseMovies(): void {
+       this.$router.push({ path: "/browse" });
     }
+
     manageUser(): void {
-      this.$router.push({ path: "/signin" });
+      this.$router.push({ path: "/" });
     }
+
     signOut(): void {
       this.$appAuth.signOut()
       .then(() => {
         alert("Successfully signed out.");
+        this.$router.replace({ path: "/" });
       })
       .catch((err: any) => {
         alert("Error signing out: " + err);
+      })
+    }
+
+    userLoggedIn(): boolean {
+      return this.$appAuth.currentUser?.uid !== undefined;
+    }
+
+    created() {
+      this.$appAuth.onAuthStateChanged(user => {
+        if (user) {
+          this.user = user.uid;
+        } else {
+          this.user = null;
+        }
       })
     }
 }

@@ -29,7 +29,7 @@ export default class Tickets extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
 #tickets {
   display: block;
   border: 2px solid red;

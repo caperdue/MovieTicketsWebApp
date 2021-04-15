@@ -1,79 +1,85 @@
 <template>
-  <div id="finalizePurchase">
+  <b-container class="mt-3">
     <h3>Finalize Purchase</h3>
-    <div id="movieInformation" >
-    <p><b>Movie: </b>{{movieName}}</p>
-    <p><b>Number of Tickets: </b>{{numTickets}}</p>
-    <p><b>Time: </b>{{movieTime}}</p>
-    <p><b>Credit Card Number: </b>{{creditCardNumber}}</p>
-    <button @click="purchase">Purchase</button>
-    <button @click="backToBrowse">Return to Browse Movies</button>
-
+    <div class="ticket-container px-3">
+      <h5 class="mt-3">
+        Movie: <span>{{ movieName }}</span>
+      </h5>
+      <h5>
+        Movie Date: <span>{{ showDate }}</span>
+      </h5>
+      <h5 class="mt-3">Number of Tickets</h5>
+      <select class="input" v-model="numTickets">
+        <option disabled value="">Please select one</option>
+        <option v-for="(n, pos) in 10" :key="pos">{{ n }}</option>
+      </select>
+      <h5 class="mt-3">Credit Card Number</h5>
+      <input v-model="creditCardNumber" type="text" />
+      <div class="mt-3 mb-3">
+        <b-button @click="purchase" class="mr-3" variant="primary"
+          >Purchase</b-button
+        >
+        <b-button @click="backToBrowse" variant="warning">Go Back</b-button>
+      </div>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import Tickets from './Tickets.vue';
- 
 
 @Component({
-  components: {
-    Tickets, 
-  },
+  components: {},
 })
-
 export default class FinalizePurchase extends Vue {
-  @Prop() readonly movieName!: string;
-  @Prop() readonly numTickets!: number;
-  @Prop() readonly movieTime!: string;
-  @Prop() readonly creditCardNumber!: number;
+  private movieName = "";
+  private numTickets = 0;
+  private movieTime = "";
+  private showDate = "";
+  private creditCardNumber: null | number = null;
 
-  
+  readonly $route;
   readonly $router;
 
   purchase() {
-    this.$router.replace({path: "/confirmation"})
+    if (this.numTickets > 0 && this.creditCardNumber) {
+
+    this.$router.replace({
+      name: "Purchase Confirmation",
+      params: {
+        name: this.movieName,
+        tickets: this.numTickets,
+        time: this.movieTime,
+        date: this.showDate,
+      },
+    });
+    }
   }
 
   backToBrowse() {
-    this.$router.replace({path: "/browse"})
+    this.$router.back();
+  }
+
+  created() {
+    // Get the parameters to pass along movie information
+    this.movieName = this.$route.params.name;
+    this.movieTime = this.$route.params.time;
+    this.showDate = this.$route.params.date;
   }
 }
 </script>
 
-<style>
-/* #movieInformation {
-  display: inline-block;
-  border: 2px solid;
-  border-radius: 0.5em;
-  padding: 1em;
-  margin: 0.6em;
-  max-width: 50%;
-}  */
-
-#movieInformation {
-  display: inline-block;
-  border: 2px solid;
-  border-radius: 0.5em;
-  padding: 1em;
-  margin: 0.6em;
-  width: 50%;
-}
-
-
-div {
-    overflow: hidden;
+<style scoped>
+span {
+  font-size: 1.25em;
 }
 
 h3 {
-    text-align: center;
+  text-align: center;
 }
 
-p {
-    text-align: left;
+.ticket-container {
+  border: 2px solid;
+  border-radius: 0.5em;
 }
-
-
 </style>

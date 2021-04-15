@@ -1,82 +1,73 @@
 <template>
-  <div id="purchaseConfirmation">
+  <b-container class="mt-3" id="purchaseConfirmation">
     <h3>Purchase Confirmation</h3>
-    <div  id="movies">
-    <p id="movieName">{{movieName}}</p>
-    <img id="movieImg" :src="movieUrl"/>
-    <p><b>Date of Purchase: </b>{{dateOfPurchase}}</p>
-    <p><b>Number of Tickets: </b>{{numTickets}}</p>
-    <p class="totals">Ticket Total: ${{ticketTotal}}</p><br>
-    <p class="totals">Tax: ${{taxAmount}}</p><br>
-    <p class="totals"><b>Total: </b>${{totalAmount}}</p><br><br>
-    <button @click="print">Print Ticket</button>
+    <div id="movies">
+      <h6 id="movieName">{{ movieName }}</h6>
+      <h6>Date of Purchase: {{ dateOfPurchase }}</h6>
+      <h6>Number of Tickets: {{ numTickets }}</h6>
+      <h6>Show date: {{ movieDate}}</h6>
+      <h6>Show time: {{ movieTime }}</h6>
+      <h6 class="totals">Total: ${{ totalAmount }}</h6>
+      <b-button variant="success" @click="print">Print Ticket</b-button>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import Tickets from './Tickets.vue';
- 
 
 @Component({
   components: {
-    Tickets, 
   },
 })
-
 export default class PurchaseConfirmation extends Vue {
-  @Prop() readonly movieName!: string;
-  @Prop() readonly dateOfPurchase!: Date;
-  @Prop() readonly numTickets!: number;
-  @Prop() readonly ticketTotal!: number;
-  @Prop() readonly taxAmount!: number;
-  @Prop() readonly totalAmount!: number;
-  @Prop() private movieUrl!: string;
-
+  private movieName = "";
+  private dateOfPurchase = "";
+  private movieDate = "";
+  private movieTime = "";
+  private numTickets!: number;
+  private totalAmount = 0;
 
   readonly $router;
+  readonly $route;
 
   print() {
-    this.$router.replace({path: "/print"})
+    this.$router.replace({ path: "/print" });
+  }
+
+  created() {
+    this.dateOfPurchase = new Date(Date.now()).toDateString();
+    this.movieName = this.$route.params.name;
+    this.numTickets = this.$route.params.tickets;
+    this.movieDate = this.$route.params.date;
+    this.movieTime = this.$route.params.time;
+
+    // Generate total cost
+    this.totalAmount = this.numTickets * 10;
   }
 }
 </script>
 
-<style>
+<style scoped>
+
+#purchaseConfirmation {
+  text-align:center;
+}
 #movies {
   display: inline-block;
   border: 2px solid;
   border-radius: 0.5em;
   padding: 1em;
   margin: 0.6em;
-  width: 50%;
-}
-
-div {
-    overflow: hidden;
+  text-align: left;
 }
 
 h3 {
-    text-align: center;
-}
-
-p {
-    text-align: left;
-}
-
-.totals {
-    text-align: right;
-    display: inline-block;
+  text-align: center;
 }
 
 #movieName {
-    font-size: 20px;
-}
-
-#movieImg {
-    float: left;
-    width: 25%;
+  font-size: 20px;
 }
 
 </style>

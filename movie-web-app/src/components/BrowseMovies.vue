@@ -1,9 +1,11 @@
 <template>
 <div>
     <h1>Browse Movies</h1>
+    <h4 class="inline-date mx-2">Choose a Date:</h4>
+     <input v-model="selectedDate" type="date" class="inline-date" @change="loadMovies">
     <Movie v-for="movie in movieList" 
-    :key="movie.imdbID" :movieName="movie.Title" 
-    :movieImgUrl="movie.Poster" :movieYear="parseFloat(movie.Year)" :movieId="movie.imdbID"/>
+    :key="movie.imdbID" :movie="movie" :showDate="selectedDate" />
+
 </div>
 </template>
 
@@ -19,10 +21,22 @@ import axios, { AxiosResponse } from "axios";
 })
 export default class BrowseMovies extends Vue {
   private movieList: any[] = [];
+  private selectedDate = new Date(Date.now()).toLocaleDateString('en-US', {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+});
+  readonly $appAuth;
 
   mounted() {
-    //Get the list of movies for viewing
-   axios.get("http://www.omdbapi.com/?apikey=91906364", {
+    // Get the list of movies for viewing
+    this.loadMovies();
+  }
+
+  loadMovies() {
+    // Reset movie list
+    this.movieList = [];
+    axios.get("http://www.omdbapi.com/?apikey=91906364", {
       params: {
         y: "2021",
         s: "sweet",
@@ -32,7 +46,6 @@ export default class BrowseMovies extends Vue {
       for (let movie of r.data.Search) {
         this.movieList.push(movie); 
       }
-
     })
     
     .catch((err: any) => {
@@ -45,10 +58,13 @@ export default class BrowseMovies extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 div {
+    text-align:center;
     margin-top: 30px;
     padding:15px;
 }
 
-
+.inline-date {
+  display: inline-block;
+}
 
 </style>

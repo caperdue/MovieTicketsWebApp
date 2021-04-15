@@ -24,19 +24,19 @@ import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
 @Component({
   components: {},
 })
+
 export default class ManageUser extends Vue {
-  private email = ""
-  private password = ""
+  private email = "";
+  private password = "";
   readonly $router;
   readonly $appDB!: FirebaseFirestore;
   readonly $appAuth!: FirebaseAuth;
 
   authenticate() {
-    console.log("RAN")
     this.$appAuth.signInWithEmailAndPassword(this.email, this.password)
     .then((u: UserCredential) => {
       alert("Successfully signed in!");
-      this.$router.replace({path: "/browse"});
+      this.$router.push({path: "/browse"});
     })
     .catch((err: any) => {
       alert("Error signing in: " + err);
@@ -44,11 +44,10 @@ export default class ManageUser extends Vue {
   }
 
   createAccount() {
-    console.log("RAN2")
     this.$appAuth.createUserWithEmailAndPassword(this.email, this.password)
     .then((u: UserCredential) => {
       alert("Successfully signed up!");
-      this.$router.replace({path: "/browse"});
+      this.$router.push({path: "/browse"});
     })
     .catch((err: any) => {
       alert("Error signing up: " + err);
@@ -64,20 +63,23 @@ export default class ManageUser extends Vue {
   padding-left: 10%;
   padding-right: 10%;
 }
+
 input {
   display: block;
   margin: auto;
   width: 40%;
   margin-bottom: 5px;
 }
+
 h1 {
   padding-top: 20px;  
   text-align: center;
 }
 
-button:first-of-type{
+button:first-of-type {
     margin-top:10px;
 }
+
 button {
   margin: auto;
   margin-bottom: 10px;
