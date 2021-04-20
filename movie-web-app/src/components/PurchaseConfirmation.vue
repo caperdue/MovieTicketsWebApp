@@ -27,12 +27,19 @@ export default class PurchaseConfirmation extends Vue {
   private movieTime = "";
   private numTickets!: number;
   private totalAmount = 0;
+  private purchaseID = "";
+
 
   readonly $router;
   readonly $route;
 
   print() {
-    this.$router.replace({ path: "/print" });
+    this.$router.replace({
+      name: "Print Ticket",
+      params: {
+        ticketID: this.purchaseID,
+      },
+    });
   }
 
   created() {

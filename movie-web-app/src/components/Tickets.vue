@@ -1,16 +1,18 @@
 <template>
-  <div id="tickets">
+    <b-container class="mt-3" id="ticketInfo">
+    <div id="tickets">
     <h3>{{movieName}}</h3>
-    <p id="date">Date: {{movieDate}}</p>
-    <p id="rating">{{movieRating}}</p>
+    <p id="date">Date of purchase: {{dateOfPurchase}}</p>
+    <!-- <p id="rating">{{movieRating}}</p> -->
     <ul>
-        <li>Ticket Number: {{ticketNumber}}</li>
-        <li>Theatre Number: {{theatreNumber}}</li>
-        <li>Seat Number: {{seatNumber}}</li>
-    </ul>
-       
+        <li>Number of tickets: {{numberTickets}}</li>
+        <li>Show date: {{movieDate}}</li>
+        <li>Show time: {{movieTime}}</li>
+    </ul>     
     <img alt="QR Code" :src="imageurl">  
   </div>
+    </b-container>
+
 </template>
 
 <script lang="ts">
@@ -19,24 +21,29 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 @Component
 export default class Tickets extends Vue {
   @Prop() readonly movieName!: string;
-  @Prop() readonly ticketNumber!: number;
-  @Prop() readonly theatreNumber!: number;
-  @Prop() readonly seatNumber!: number;
-  @Prop() readonly movieRating!: string;
-  @Prop() readonly movieDate!: Date;
-  @Prop() readonly imageurl!: string;
+  @Prop() readonly dateOfPurchase!: string;
+  @Prop() readonly numberTickets!: string;
+  @Prop() readonly movieDate!: string;
+  @Prop() readonly movieTime!: string;
+  // @Prop() readonly imageurl!: string;
+
+  readonly imageurl =  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
+
 
 }
 </script>
 
 <style scoped>
+#ticketInfo {
+  text-align:center;
+}
 #tickets {
-  display: block;
-  border: 2px solid red;
+  display: inline-block;
+  border: 2px solid;
   border-radius: 0.5em;
   padding: 1em;
   margin: 0.6em;
-  width: 90%;
+  text-align: left;
 }
 
 div {
