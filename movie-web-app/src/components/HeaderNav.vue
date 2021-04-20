@@ -31,10 +31,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Movie from "./Movie.vue";
-import firebase from "firebase/app";
 import "firebase/auth";
 import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
+import VueRouter from "vue-router";
 
 @Component({})
 export default class HeaderNav extends Vue {
@@ -42,7 +41,7 @@ export default class HeaderNav extends Vue {
 
     // References for authentication and routing
     readonly $appAuth!: FirebaseAuth;
-    readonly $router;
+    readonly $router!: VueRouter;
 
     // Sign out the user
     signOut(): void {
@@ -62,7 +61,7 @@ export default class HeaderNav extends Vue {
     }
 
     // Check if user is logged in, if so, set user UID
-    created() {
+    created(): void {
       this.$appAuth.onAuthStateChanged(user => {
         if (user) {
           this.user = user.uid;

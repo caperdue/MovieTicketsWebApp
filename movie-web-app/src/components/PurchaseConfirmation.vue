@@ -37,13 +37,14 @@ export default class PurchaseConfirmation extends Vue {
     this.$router.replace({
       name: "Print Ticket",
       params: {
-        ticketID: this.purchaseID,
+        purchaseID: this.purchaseID,
       },
     });
   }
 
   created() {
     this.dateOfPurchase = new Date(Date.now()).toDateString();
+    this.purchaseID = this.$route.params.purchaseID;
     this.movieName = this.$route.params.name;
     this.numTickets = this.$route.params.tickets;
     this.movieDate = this.$route.params.date;

@@ -32,13 +32,13 @@ export default class BrowseMovies extends Vue {
   // Reference for authentication
   readonly $appAuth;
 
-  mounted() {
+  mounted(): void {
     // Get the list of movies for viewing
     this.loadMovies();
   }
 
   // Load movies to be displayed
-  loadMovies() {
+  loadMovies(): void {
     // Reset movie list
     this.movieList = [];
     axios.get("http://www.omdbapi.com/?apikey=91906364", {

@@ -26,28 +26,30 @@ import VueRouter,{ RouteConfig, RouterMode } from "vue-router";
 
 export default class PrintTicket extends Vue {
 
-  private tickets: any[] = [];
-  private userUID = "-1";
+  private tickets = [];
+  private userUID: string | undefined;
   private purchaseID = "";
 
   readonly $appAuth!: FirebaseAuth;
   readonly $appDB!: FirebaseFirestore;
-  // readonly $router;
-  // readonly $route;
+  readonly $router;
+  readonly $route;
 
    created() {
     this.purchaseID = this.$route.params.purchaseID;
-    console.log(this.purchaseID);
-    this.userUID = this.$appAuth.currentUser?.uid?? "-1";
+    this.userUID = this.$appAuth.currentUser?.uid;
     this.$appDB
       .collection(`users/${this.userUID}/purchases`)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          if (this.purchaseID == doc.data().purchaseID) {
-          this.tickets.push(doc.data());  
-          }   
+          if (doc.data().purchaseID === this.purchaseID){
+            for(let i = 0; i < doc.data().numTickets; i++){
+              this.tickets.push(doc.data())
+            }
+          }
         });
+        
       console.log(this.tickets);
        
       });  

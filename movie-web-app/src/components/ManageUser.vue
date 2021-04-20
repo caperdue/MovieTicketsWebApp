@@ -17,10 +17,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator"
+import { Component, Vue } from "vue-property-decorator"
 import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
+import VueRouter from 'vue-router';
 
-@Component({})
+@Component({
+  components: {},
+})
 
 export default class ManageUser extends Vue {
 
@@ -29,10 +32,12 @@ export default class ManageUser extends Vue {
   private password = "";
 
   // Provide references for routing and authentication
-  readonly $router;
+  readonly $router!: VueRouter;
   readonly $appAuth!: FirebaseAuth;
 
-  // Log in the user
+  /*
+   * Log in the user through Firebase.
+   */
   authenticate(): void {
     this.$appAuth.signInWithEmailAndPassword(this.email, this.password)
     .then((u: UserCredential) => {
@@ -40,18 +45,22 @@ export default class ManageUser extends Vue {
       this.$router.push({path: "/browse"});
     })
     .catch((err: any) => {
+      // Alert user with the error for signing in
       alert("Error signing in: " + err);
     })
   }
 
-  // Create an account for the user
+  /*
+   * Create an account for the user through Firebase.
+   */
   createAccount(): void {
     this.$appAuth.createUserWithEmailAndPassword(this.email, this.password)
     .then((u: UserCredential) => {
       alert("Successfully signed up!");
-      this.$router.push({path: "/browse"});
+      this.$router.push({ path: "/browse" });
     })
     .catch((err: any) => {
+      // Alert user with the error for signing up
       alert("Error signing up: " + err);
     }) 
   }
@@ -59,7 +68,6 @@ export default class ManageUser extends Vue {
 </script>
 
 <style scoped>
-
 #form {
   margin-top: 40px;
   padding-left: 10%;
@@ -68,8 +76,8 @@ export default class ManageUser extends Vue {
 
 input {
   display: block;
-  margin: auto;
   width: 40%;
+  margin: auto;
   margin-bottom: 5px;
 }
 
@@ -84,7 +92,7 @@ button:first-of-type {
 
 button {
   margin: auto;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding: 7px;
   display: block;
 

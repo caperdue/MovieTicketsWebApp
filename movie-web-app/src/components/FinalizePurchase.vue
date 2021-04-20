@@ -51,18 +51,7 @@ export default class FinalizePurchase extends Vue {
   purchase() {
     if (this.numTickets > 0 && this.creditCardNumber) {
 
-    this.$router.replace({
-      name: "Purchase Confirmation",
-      params: {
-        name: this.movieName,
-        tickets: this.numTickets,
-        time: this.movieTime,
-        date: this.showDate,
-      },
-    });
-
     //Send the tickets to the database
-    this.purchaseID = uuid.v1();
     this.$appDB.collection(`users/${this.userUID}/purchases`)
     .add(
       {
@@ -76,6 +65,16 @@ export default class FinalizePurchase extends Vue {
       })
 
     }
+    this.$router.replace({
+      name: "Purchase Confirmation",
+      params: {
+        name: this.movieName,
+        tickets: this.numTickets,
+        time: this.movieTime,
+        date: this.showDate,
+        purchaseID: this.purchaseID
+      },
+    });
   }
 
   backToBrowse() {
@@ -84,6 +83,7 @@ export default class FinalizePurchase extends Vue {
 
   created() {
     // Get the parameters to pass along movie information
+    this.purchaseID = uuid.v1();
     this.movieName = this.$route.params.name;
     this.movieTime = this.$route.params.time;
     this.showDate = this.$route.params.date;

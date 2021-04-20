@@ -5,7 +5,7 @@
         <template #aside>
           <b-img class="mt-0" :src="movie.Poster"></b-img>
         </template>
-        <h5 class="mt-0 mb-2">{{movie.Title}}</h5>
+        <h5 class="mt-0 mb-2">{{ movie.Title }}</h5>
         <h6 class="pt-3">View Times</h6>
         <b-button
           @click="goToPurchase"
@@ -15,15 +15,15 @@
         >
           {{ time }}
         </b-button>
-          <b-button
-        class="mt-2"
-        id="view-details"
-        v-b-popover.hover.html="popoverMethod"
-        title="Movie Details"
-        variant="success"
-      >
-        View Movie Details
-      </b-button>
+        <b-button
+          class="mt-2"
+          id="view-details"
+          v-b-popover.hover.html="popoverMethod"
+          title="Movie Details"
+          variant="success"
+        >
+          View Movie Details
+        </b-button>
       </b-media>
     </b-card>
   </b-container>
@@ -33,45 +33,50 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios, { AxiosResponse } from "axios";
 import { FirebaseFirestore } from "@firebase/firestore-types";
-import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
+import { FirebaseAuth } from "@firebase/auth-types";
+import VueRouter from "vue-router";
 
 @Component
 export default class Movie extends Vue {
   @Prop() private movieYear!: string;
   @Prop() private showDate!: string;
-  @Prop() private movie: any;
+  @Prop() private movie!: any;
 
   // Define movie detail information
-  private randomMovieTimeArray = {
+  private randomMovieTimeArray: any = {
     minutes: ["15", "30", "45", "00"],
     time: ["AM", "PM"],
   };
   private movieTimes: any[] = [];
-  private selectedTime!: string;
   private movieDetails: any = {};
+  private selectedTime!: string;
 
   // References for routing, database, and authentication
-  readonly $router;
+  readonly $router!: VueRouter;
   readonly $appDB!: FirebaseFirestore;
   readonly $appAuth!: FirebaseAuth;
 
-  // Redirect user to complete a purchase
-  goToPurchase(e) {
+  /*
+   * Redirects user to complete a purchase
+   */ 
+  goToPurchase(e): void {
     // Get time of selected button
     this.selectedTime = e.target.innerText;
-     this.$router.push({
-       name: "Finalize Purchase",
-       params: {
-         name: this.movie.Title,
-         rating: this.movieDetails.rating,
-         date: this.showDate,
-         time: this.selectedTime,
-       }
-       });
+    this.$router.push({
+      name: "Finalize Purchase",
+      params: {
+        name: this.movie.Title,
+        rating: this.movieDetails.rating,
+        date: this.showDate,
+        time: this.selectedTime,
+      },
+    });
   }
 
-  // Get details of hovered movie
-  getDetails() {
+  /*
+   * Gets details of movie hovered over.
+   */ 
+  getDetails(): void {
     axios
       .get("http://www.omdbapi.com/?apikey=91906364", {
         params: {
@@ -86,7 +91,7 @@ export default class Movie extends Vue {
           rating: r.data.Rated,
           genre: r.data.Genre,
           runtime: r.data.Runtime,
-        }
+        };
       })
 
       .catch((err: any) => {
@@ -94,31 +99,36 @@ export default class Movie extends Vue {
       });
   }
 
-  // Render HTML for selected movie content in popover
-  popoverMethod() {
+ /*
+   * Renders the HTML for the selected movie in a popover.
+   */ 
+  popoverMethod(): string {
     this.getDetails();
-    return (
-      "<p>Released in " +
-      this.movieDetails.year === undefined ? "N/A": this.movieDetails.year +
-      "</p>" +
-      "<h6>Summary</h6>" +
-      "<p>" +
-      (this.movieDetails.plot === "" ? "N/A" : this.movieDetails.plot) +
-      "</p>" +
-      "<p>Rated " +
-      (this.movieDetails.rating === "" ? "N/A" : this.movieDetails.rating) +
-      "</p>" +
-      "<p>Genre: " +
-      (this.movieDetails.genre === "" ? "N/A" : this.movieDetails.genre) +
-      "</p>" +
-      "<p>Runtime: " +
-      (this.movieDetails.runtime === "" ? "N/A" : this.movieDetails.runtime) +
-      "</p>"
-    );
+    return "<p>Released in " + this.movieDetails.year === undefined
+      ? "N/A"
+      : this.movieDetails.year +
+          "</p>" +
+          "<h6>Summary</h6>" +
+          "<p>" +
+          (this.movieDetails.plot === "" ? "N/A" : this.movieDetails.plot) +
+          "</p>" +
+          "<p>Rated " +
+          (this.movieDetails.rating === "" ? "N/A" : this.movieDetails.rating) +
+          "</p>" +
+          "<p>Genre: " +
+          (this.movieDetails.genre === "" ? "N/A" : this.movieDetails.genre) +
+          "</p>" +
+          "<p>Runtime: " +
+          (this.movieDetails.runtime === ""
+            ? "N/A"
+            : this.movieDetails.runtime) +
+          "</p>";
   }
 
-  // Generate the random movie times for the selected date
-  generateMovieTimes() {
+   /*
+   * Generate the random movie times for the selected date
+   */ 
+  generateMovieTimes(): void {
     for (let i = 0; i <= Math.floor(Math.random() * 30); i++) {
       this.movieTimes.push(`${Math.floor(Math.random() * 12 + 1)}:${
         this.randomMovieTimeArray.minutes[
@@ -128,16 +138,17 @@ export default class Movie extends Vue {
           ${this.randomMovieTimeArray.time[Math.floor(Math.random() * 2)]}`);
     }
   }
-  
-  // Generate movie times upon creation
-  created() {
+
+  /*
+   * Generate movie times upon creation
+   */
+  created(): void {
     this.generateMovieTimes();
   }
 }
 </script>
 
 <style scoped>
-
 .movie {
   text-align: left;
 }
@@ -146,7 +157,7 @@ img {
   width: 200px;
 }
 #view-details {
-  display:block;
+  display: block;
 }
 .time-buttons {
   margin: 2px;
