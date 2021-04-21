@@ -16,7 +16,6 @@ const myRoutes: Array<RouteConfig> = [
     path: "/",
     component: ManageUser,
   },
-
   {
     name: "Browse Movies",
     path: "/browse",

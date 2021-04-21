@@ -84,7 +84,6 @@ export default class Movie extends Vue {
         },
       })
       .then((r: AxiosResponse) => {
-        console.log(r);
         this.movieDetails = {
           year: parseFloat(r.data.Year),
           plot: r.data.Plot,

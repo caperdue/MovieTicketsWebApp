@@ -50,20 +50,19 @@ export default class FinalizePurchase extends Vue {
 
   purchase() {
     if (this.numTickets > 0 && this.creditCardNumber) {
-
-    //Send the tickets to the database
-    this.$appDB.collection(`users/${this.userUID}/purchases`)
-    .add(
-      {
-        name: this.movieName,
-        numTickets: this.numTickets,
-        date: this.showDate,
-        time: this.movieTime,
-        cost: this.numTickets * 10,
-        purchaseDate: this.dateOfPurchase,
-        purchaseID: this.purchaseID,
-      })
-
+      //Send the tickets to the database
+      this.$appDB
+        .collection(`users/${this.userUID}/purchases`)
+        .doc(this.purchaseID)
+        .set({
+          name: this.movieName,
+          numTickets: this.numTickets,
+          date: this.showDate,
+          time: this.movieTime,
+          cost: this.numTickets * 10,
+          purchaseDate: this.dateOfPurchase,
+          purchaseID: this.purchaseID,
+        });
     }
     this.$router.replace({
       name: "Purchase Confirmation",
@@ -72,7 +71,7 @@ export default class FinalizePurchase extends Vue {
         tickets: this.numTickets,
         time: this.movieTime,
         date: this.showDate,
-        purchaseID: this.purchaseID
+        purchaseID: this.purchaseID,
       },
     });
   }

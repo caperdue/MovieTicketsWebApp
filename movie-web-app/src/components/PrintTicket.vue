@@ -26,7 +26,7 @@ import VueRouter,{ RouteConfig, RouterMode } from "vue-router";
 
 export default class PrintTicket extends Vue {
 
-  private tickets = [];
+  private tickets: any[] = [];
   private userUID: string | undefined;
   private purchaseID = "";
 
@@ -48,10 +48,7 @@ export default class PrintTicket extends Vue {
               this.tickets.push(doc.data())
             }
           }
-        });
-        
-      console.log(this.tickets);
-       
+        });  
       });  
   }
 
