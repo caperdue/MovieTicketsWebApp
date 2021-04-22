@@ -1,7 +1,6 @@
 <template>
   <b-container class="mt-3" id="ticketInfo">
     <div id="tickets">
-<<<<<<< HEAD
     <h3>{{movieName}}</h3>
     <p id="date">Date of purchase: {{dateOfPurchase}}</p>
     <!-- <p id="rating">{{movieRating}}</p> -->
@@ -15,7 +14,6 @@
     <img alt="QR Code" :src="imageurl">  
   </div>
     </b-container>
-=======
       <b-button
         v-if="editMode && Date.now() > new Date(movieDate)"
         class="edit ml-2"
@@ -30,7 +28,6 @@
         @click="showModal = !showModal"
         >Edit</b-button
       >
->>>>>>> 746e9b43ba19c79c1aeb64b8ce79d999b9ac5426
 
       <h3>{{ movieName }}</h3>
       <p id="date">Date of purchase: {{ dateOfPurchase }}</p>
@@ -75,11 +72,9 @@ export default class Tickets extends Vue {
   @Prop() numberTickets!: string;
   @Prop() readonly movieDate!: string;
   @Prop() readonly movieTime!: string;
-<<<<<<< HEAD
   
   // private seatNumber = Math.ceil(Math.random() * (100));
   // private theatreNumber = Math.ceil(Math.random() * (100));
-=======
   @Prop() readonly ticketID!: string;
 
   // @Prop() readonly imageurl!: string;
@@ -95,7 +90,6 @@ export default class Tickets extends Vue {
   created() {
     this.userUID = this.$appAuth.currentUser?.uid;
   }
->>>>>>> 746e9b43ba19c79c1aeb64b8ce79d999b9ac5426
 
   handleDelete() {
     this.$appDB.collection(`users/${this.userUID}/purchases`)
@@ -108,9 +102,6 @@ export default class Tickets extends Vue {
       alert("There was an error cancelling your reservation.");
       })
 
-<<<<<<< HEAD
-  
-=======
   }
   handleEdit() {
     this;
@@ -126,7 +117,6 @@ export default class Tickets extends Vue {
 
     alert("Tickets updated, amount reflected on your credit card")
   }
->>>>>>> 746e9b43ba19c79c1aeb64b8ce79d999b9ac5426
 }
 </script>
 
