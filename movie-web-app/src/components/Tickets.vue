@@ -2,7 +2,7 @@
   <b-container class="mt-3" id="ticketInfo">
     <div id="tickets">
       <b-button
-        v-if="editMode && Date.now() > new Date(movieDate)"
+        v-if="editMode && Date.now() <= new Date(movieDate)"
         class="edit ml-2"
         variant="danger"
         @click="handleDelete"
