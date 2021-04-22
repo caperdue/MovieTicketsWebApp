@@ -1,6 +1,7 @@
 <template>
-    <b-container class="mt-3" id="ticketInfo">
+  <b-container class="mt-3" id="ticketInfo">
     <div id="tickets">
+<<<<<<< HEAD
     <h3>{{movieName}}</h3>
     <p id="date">Date of purchase: {{dateOfPurchase}}</p>
     <!-- <p id="rating">{{movieRating}}</p> -->
@@ -14,32 +15,124 @@
     <img alt="QR Code" :src="imageurl">  
   </div>
     </b-container>
+=======
+      <b-button
+        v-if="editMode && Date.now() > new Date(movieDate)"
+        class="edit ml-2"
+        variant="danger"
+        @click="handleDelete"
+        >Cancel Reservation</b-button
+      >
+      <b-button
+        v-if="editMode"
+        class="edit"
+        variant="warning"
+        @click="showModal = !showModal"
+        >Edit</b-button
+      >
+>>>>>>> 746e9b43ba19c79c1aeb64b8ce79d999b9ac5426
 
+      <h3>{{ movieName }}</h3>
+      <p id="date">Date of purchase: {{ dateOfPurchase }}</p>
+      <ul>
+        <li>Number of tickets: {{ numberTickets }}</li>
+        <li>Show date: {{ movieDate }}</li>
+        <li>Show time: {{ movieTime }}</li>
+      </ul>
+      <img alt="QR Code" :src="imageurl" />
+    </div>
+    <b-modal
+      id="modal-prevent-closing"
+      ref="modal"
+      title="Edit Ticket"
+      v-model="showModal"
+      @ok="handleEdit"
+    >
+      <h6>{{ movieName }}</h6>
+      <p>Edit Ticket Number</p>
+      <select class="input" v-model="tempTickets">
+        <option disabled value="">Edit Tickets</option>
+        <option v-for="(n, pos) in 10" :key="pos">{{ n }}</option>
+      </select>
+    </b-modal>
+  </b-container>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { FirebaseAuth } from "@firebase/auth-types";
+import {
+  DocumentReference,
+  FirebaseFirestore,
+  QuerySnapshot,
+} from "@firebase/firestore-types";
 
 @Component
 export default class Tickets extends Vue {
+  @Prop() readonly editMode!: boolean;
   @Prop() readonly movieName!: string;
   @Prop() readonly dateOfPurchase!: string;
-  @Prop() readonly numberTickets!: string;
+  @Prop() numberTickets!: string;
   @Prop() readonly movieDate!: string;
   @Prop() readonly movieTime!: string;
+<<<<<<< HEAD
   
   // private seatNumber = Math.ceil(Math.random() * (100));
   // private theatreNumber = Math.ceil(Math.random() * (100));
+=======
+  @Prop() readonly ticketID!: string;
 
-  readonly imageurl =  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
+  // @Prop() readonly imageurl!: string;
+  readonly $appDB!: FirebaseFirestore;
+  readonly $appAuth!: FirebaseAuth;
+  private userUID: string | undefined = "";
+  private showModal = false;
+  private tempTickets = 1;
 
+  readonly imageurl =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png";
+
+  created() {
+    this.userUID = this.$appAuth.currentUser?.uid;
+  }
+>>>>>>> 746e9b43ba19c79c1aeb64b8ce79d999b9ac5426
+
+  handleDelete() {
+    this.$appDB.collection(`users/${this.userUID}/purchases`)
+    .doc(this.ticketID)
+    .delete()
+    .then(() => {
+      alert("Tickets successfully refunded and reservation canceled.");
+    })
+    .catch((err: any) => {
+      alert("There was an error cancelling your reservation.");
+      })
+
+<<<<<<< HEAD
   
+=======
+  }
+  handleEdit() {
+    this;
+    this.$appDB
+      .collection(`users/${this.userUID}/purchases`)
+      .doc(this.ticketID)
+      .set(
+        {
+          numTickets: this.tempTickets,
+        },
+        { merge: true }
+      );
+
+    alert("Tickets updated, amount reflected on your credit card")
+  }
+>>>>>>> 746e9b43ba19c79c1aeb64b8ce79d999b9ac5426
 }
 </script>
 
 <style scoped>
 #ticketInfo {
-  text-align:center;
+  text-align: center;
 }
 #tickets {
   display: inline-block;
@@ -51,30 +144,33 @@ export default class Tickets extends Vue {
 }
 
 div {
-    overflow: hidden;
-
+  overflow: hidden;
 }
 
-#date, #rating{
-    text-align: right;
+#date,
+#rating {
+  text-align: right;
 }
 
 li {
-    list-style: none;
-    text-align: left;
+  list-style: none;
+  text-align: left;
 }
 
 ul {
-    display: inline-block;
+  display: inline-block;
 }
 
 h3 {
-    text-align: left;
-    
+  text-align: left;
 }
 
 img {
-    float: right;
-    width: 25%;
+  float: right;
+  width: 25%;
+}
+
+.edit {
+  float: right;
 }
 </style>

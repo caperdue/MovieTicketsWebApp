@@ -1,17 +1,25 @@
 <template>
   <div>
-     <Tickets v-for="ticket in tickets" :key="ticket.purchaseID"
-    :movieName="ticket.name" :dateOfPurchase="ticket.purchaseDate" :numberTickets="ticket.numTickets" :movieDate="ticket.date" :movieTime="ticket.time"></Tickets>
+    <Tickets
+      v-for="ticket in tickets"
+      :key="ticket.purchaseID"
+      :movieName="ticket.name"
+      :dateOfPurchase="ticket.purchaseDate"
+      :numberTickets="ticket.numTickets"
+      :movieDate="ticket.date"
+      :movieTime="ticket.time"
+      :editMode="true"
+      :ticketID="ticket.purchaseID"
+    ></Tickets>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { DocumentReference } from "@firebase/firestore-types";
+import { DocumentReference, QuerySnapshot } from "@firebase/firestore-types";
 import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
-import {FirebaseFirestore} from "@firebase/firestore-types";
-import Tickets from './Tickets.vue';
-
+import { FirebaseFirestore } from "@firebase/firestore-types";
+import Tickets from "./Tickets.vue";
 
 @Component({
   components: {
@@ -19,8 +27,6 @@ import Tickets from './Tickets.vue';
   },
 })
 export default class ViewTickets extends Vue {
-  // readonly $router;
-  // readonly $route;
   readonly $appDB!: FirebaseFirestore;
   readonly $appAuth!: FirebaseAuth;
 
@@ -30,21 +36,28 @@ export default class ViewTickets extends Vue {
   created() {
     this.userUID = this.$appAuth.currentUser?.uid ?? "-1";
     // this.userUID = this.$appAuth.currentUser?.uid ?? "none";
-    console.log(this.userUID);
+
     this.$appDB
       .collection(`users/${this.userUID}/purchases`)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          this.tickets.push(doc.data());  
-          console.log(doc.data());
+          this.tickets.push(doc.data());
         });
-      console.log(this.tickets);
-       
+        console.log(this.tickets);
+      });
+    
+    //Listen to realtime updates
+    this.$appDB
+      .collection(`users/${this.userUID}/purchases`)
+      .onSnapshot((querySnapshot: QuerySnapshot) => {
+        this.tickets = [];
+        querySnapshot.forEach((doc) => {
+          this.tickets.push(doc.data());
+        });
       });
   }
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
