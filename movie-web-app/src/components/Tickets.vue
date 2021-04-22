@@ -1,18 +1,6 @@
 <template>
   <b-container class="mt-3" id="ticketInfo">
     <div id="tickets">
-    <h3>{{movieName}}</h3>
-    <p id="date">Date of purchase: {{dateOfPurchase}}</p>
-    <!-- <p id="rating">{{movieRating}}</p> -->
-    <ul>
-        <li>Number of tickets: {{numberTickets}}</li>
-        <li>Show date: {{movieDate}}</li>
-        <li>Show time: {{movieTime}}</li>
-        <li>Theatre number: {{theatreNumber}}</li>
-        <li>Seat number: {{seatNumber}}</li>
-    </ul>     
-    <img alt="QR Code" :src="imageurl">  
-  </div>
       <b-button
         v-if="editMode && Date.now() > new Date(movieDate)"
         class="edit ml-2"
@@ -27,6 +15,7 @@
         @click="showModal = !showModal"
         >Edit</b-button
       >
+
       <h3>{{ movieName }}</h3>
       <p id="date">Date of purchase: {{ dateOfPurchase }}</p>
       <ul>
@@ -49,6 +38,7 @@
         <option v-for="(n, pos) in 10" :key="pos">{{ n }}</option>
       </select>
     </b-modal>
+      </div>
   </b-container>
 </template>
 
