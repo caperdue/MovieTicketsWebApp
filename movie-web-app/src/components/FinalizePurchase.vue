@@ -64,6 +64,7 @@ export default class FinalizePurchase extends Vue {
           purchaseID: this.purchaseID,
         });
     }
+
     this.$router.replace({
       name: "Purchase Confirmation",
       params: {

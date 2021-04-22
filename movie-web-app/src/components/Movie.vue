@@ -13,7 +13,7 @@
           v-for="(time, index) in movieTimes"
           :key="index"
         >
-          {{ time }}
+          {{ time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) }}
         </b-button>
         <b-button
           class="mt-2"
@@ -39,7 +39,7 @@ import VueRouter from "vue-router";
 @Component
 export default class Movie extends Vue {
   @Prop() private movieYear!: string;
-  @Prop() private showDate!: string;
+  @Prop() private showDate!: Date;
   @Prop() private movie!: any;
 
   // Define movie detail information
@@ -67,7 +67,7 @@ export default class Movie extends Vue {
       params: {
         name: this.movie.Title,
         rating: this.movieDetails.rating,
-        date: this.showDate,
+        date: `${this.showDate}`,
         time: this.selectedTime,
       },
     });
@@ -129,13 +129,18 @@ export default class Movie extends Vue {
    */ 
   generateMovieTimes(): void {
     for (let i = 0; i <= Math.floor(Math.random() * 30); i++) {
-      this.movieTimes.push(`${Math.floor(Math.random() * 12 + 1)}:${
+      //Setting to temporary date for comparison
+      this.movieTimes.push(new Date(`January 1 2021 ${Math.floor(Math.random() * 12 + 1)}:${
         this.randomMovieTimeArray.minutes[
           Math.floor(Math.random() * this.randomMovieTimeArray.minutes.length)
         ]
       }
-          ${this.randomMovieTimeArray.time[Math.floor(Math.random() * 2)]}`);
+          ${this.randomMovieTimeArray.time[Math.floor(Math.random() * 2)]}`));
     }
+    this.movieTimes.sort((a, b) => {
+      if (a > b) return 1;
+      else return -1;
+    })
   }
 
   /*

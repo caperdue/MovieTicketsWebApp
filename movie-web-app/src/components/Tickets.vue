@@ -123,6 +123,7 @@ export default class Tickets extends Vue {
   padding: 1em;
   margin: 0.6em;
   text-align: left;
+  width:100%;
 }
 
 div {

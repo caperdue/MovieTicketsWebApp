@@ -10,6 +10,7 @@
       :movieTime="ticket.time"
       :editMode="true"
       :ticketID="ticket.purchaseID"
+      :printMode="false"
     ></Tickets>
   </div>
 </template>
