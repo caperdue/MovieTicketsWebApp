@@ -8,6 +8,8 @@
         <li>Number of tickets: {{numberTickets}}</li>
         <li>Show date: {{movieDate}}</li>
         <li>Show time: {{movieTime}}</li>
+        <li>Theatre number: {{theatreNumber}}</li>
+        <li>Seat number: {{seatNumber}}</li>
     </ul>     
     <img alt="QR Code" :src="imageurl">  
   </div>
@@ -25,11 +27,13 @@ export default class Tickets extends Vue {
   @Prop() readonly numberTickets!: string;
   @Prop() readonly movieDate!: string;
   @Prop() readonly movieTime!: string;
-  // @Prop() readonly imageurl!: string;
+  
+  // private seatNumber = Math.ceil(Math.random() * (100));
+  // private theatreNumber = Math.ceil(Math.random() * (100));
 
   readonly imageurl =  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
 
-
+  
 }
 </script>
 

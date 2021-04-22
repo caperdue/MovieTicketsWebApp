@@ -29,6 +29,8 @@ export default class PrintTicket extends Vue {
   private tickets = [];
   private userUID: string | undefined;
   private purchaseID = "";
+  // private seatNumber = Number;
+  // private theatreNumber = Math.ceil(Math.random() * (100));
 
   readonly $appAuth!: FirebaseAuth;
   readonly $appDB!: FirebaseFirestore;
@@ -47,6 +49,7 @@ export default class PrintTicket extends Vue {
             for(let i = 0; i < doc.data().numTickets; i++){
               this.tickets.push(doc.data())
             }
+
           }
         });
         
