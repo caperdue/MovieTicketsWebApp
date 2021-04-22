@@ -13,7 +13,6 @@
     </ul>     
     <img alt="QR Code" :src="imageurl">  
   </div>
-    </b-container>
       <b-button
         v-if="editMode && Date.now() > new Date(movieDate)"
         class="edit ml-2"
@@ -28,7 +27,6 @@
         @click="showModal = !showModal"
         >Edit</b-button
       >
-
       <h3>{{ movieName }}</h3>
       <p id="date">Date of purchase: {{ dateOfPurchase }}</p>
       <ul>
@@ -37,7 +35,6 @@
         <li>Show time: {{ movieTime }}</li>
       </ul>
       <img alt="QR Code" :src="imageurl" />
-    </div>
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
