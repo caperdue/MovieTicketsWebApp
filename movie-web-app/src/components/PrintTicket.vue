@@ -4,7 +4,7 @@
     <div id=ticketContent>
       <Tickets v-for="ticket in tickets" :key="ticket.numTickets"
     :movieName="ticket.name" :dateOfPurchase="ticket.purchaseDate" :numberTickets="ticket.numTickets" :movieDate="ticket.date" :movieTime="ticket.time"></Tickets>
-    <b-button variant="success" @click="browse">Return to Browsing Movies</b-button>
+    <b-button variant="success" @click="browse" :printMode="true">Return to Browsing Movies</b-button>
     </div>
   </div>
 </template>
