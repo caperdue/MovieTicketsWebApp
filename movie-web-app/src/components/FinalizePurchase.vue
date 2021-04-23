@@ -76,11 +76,18 @@ export default class FinalizePurchase extends Vue {
       },
     });
 
+    if (this.creditCardNumber.indexOf(' ') >= 0) {
+      alert("Credit card number cannot include spaces");
+      this.$router.replace({ path: "/finalize" });
+      this.creditCardNumber = "";
+    }
     if (isNaN(Number(this.creditCardNumber))) {
       alert("Credit card number cannot include letters");
       this.$router.replace({ path: "/finalize" });
       this.creditCardNumber = "";
     }
+
+    
   }
 
   backToBrowse() {
