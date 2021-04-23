@@ -2,11 +2,7 @@
   <b-container class="mt-3" id="ticketInfo">
     <div id="tickets">
       <b-button
-<<<<<<< HEAD
-        v-if="editMode && Date.now() <= new Date(movieDate)"
-=======
         v-if="editMode && new Date(Date.now()) < new Date(`${this.movieDate} ${this.movieTime}`)"
->>>>>>> 731b3d9f33303fa3084354daf54ad1ca78c665c9
         class="edit ml-2"
         variant="danger"
         @click="handleDelete"
@@ -27,7 +23,7 @@
         <li>Show date: {{ movieDate }}</li>
         <li>Show time: {{ movieTime }}</li>
         <li v-if="printMode">Seat Number: {{ seatNumber }}</li>
-        <li v-if="printMode">Theatre Number: {{ theatreNumber }}</li>
+        <li v-if="printMode">Theater Number: {{ theaterNumber }}</li>
       </ul>
       <img alt="QR Code" :src="imageurl" />
     <b-modal
@@ -66,9 +62,10 @@ export default class Tickets extends Vue {
   @Prop() readonly movieDate!: string;
   @Prop() readonly movieTime!: string;
   @Prop() readonly printMode = true;
+  @Prop() readonly theaterNumber!: number;
   
   private seatNumber = Math.ceil(Math.random() * (100));
-  private theatreNumber = Math.ceil(Math.random() * (100));
+  // private theatreNumber = Math.ceil(Math.random() * (100));
 
 
   @Prop() readonly ticketID!: string;

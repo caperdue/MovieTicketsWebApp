@@ -3,7 +3,7 @@
     <h3>Print Ticket</h3>
     <div id=ticketContent>
       <Tickets v-for="ticket in tickets" :key="ticket.numTickets"
-    :movieName="ticket.name" :dateOfPurchase="ticket.purchaseDate" :numberTickets="ticket.numTickets" :movieDate="ticket.date" :movieTime="ticket.time"></Tickets>
+    :movieName="ticket.name" :dateOfPurchase="ticket.purchaseDate" :numberTickets="ticket.numTickets" :movieDate="ticket.date" :movieTime="ticket.time" :seatNumber="ticket.seatNumber"></Tickets>
     <b-button variant="success" @click="browse" :printMode="true">Return to Browsing Movies</b-button>
     </div>
   </div>
@@ -29,6 +29,7 @@ export default class PrintTicket extends Vue {
   private tickets: any[] = [];
   private userUID: string | undefined;
   private purchaseID = "";
+
   // private seatNumber = Number;
   // private theatreNumber = Math.ceil(Math.random() * (100));
 

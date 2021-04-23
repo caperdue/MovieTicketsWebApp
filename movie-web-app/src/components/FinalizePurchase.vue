@@ -37,7 +37,7 @@ export default class FinalizePurchase extends Vue {
   private numTickets = 0;
   private movieTime = "";
   private showDate = "";
-  private creditCardNumber: null | number = null;
+  private creditCardNumber = "";
   private dateOfPurchase = "";
   private purchaseID = -1;
 
@@ -75,6 +75,12 @@ export default class FinalizePurchase extends Vue {
         purchaseID: this.purchaseID,
       },
     });
+
+    if (isNaN(Number(this.creditCardNumber))) {
+      alert("Credit card number cannot include letters");
+      this.$router.replace({ path: "/finalize" });
+      this.creditCardNumber = "";
+    }
   }
 
   backToBrowse() {
