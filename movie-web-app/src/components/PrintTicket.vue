@@ -2,8 +2,14 @@
   <div id="printTicket">
     <h3>Print Ticket</h3>
     <div id=ticketContent>
-      <Tickets v-for="ticket in tickets" :key="ticket.numTickets"
-    :movieName="ticket.name" :dateOfPurchase="ticket.purchaseDate" :numberTickets="ticket.numTickets" :movieDate="ticket.date" :movieTime="ticket.time" :theaterNumber="theatreNumber" ></Tickets>
+      <Tickets v-for="ticket in tickets" 
+      :key="ticket.numTickets"
+      :movieName="ticket.name" 
+      :dateOfPurchase="ticket.purchaseDate" 
+      :numberTickets="ticket.numTickets" 
+      :movieDate="ticket.date" 
+      :movieTime="ticket.time" 
+      :theaterNumber="theatreNumber"></Tickets>
     <b-button variant="success" @click="browse" :printMode="true">Return to Browsing Movies</b-button>
     </div>
   </div>
