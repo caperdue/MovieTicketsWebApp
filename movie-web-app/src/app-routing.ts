@@ -10,6 +10,8 @@ import firebase from 'firebase/app';
 import { FirebaseAuth, UserCredential } from "@firebase/auth-types";
 
 Vue.use(VueRouter);
+
+//sets routing for user to each page
 const myRoutes: Array<RouteConfig> = [
   {
     name: "Manage User",

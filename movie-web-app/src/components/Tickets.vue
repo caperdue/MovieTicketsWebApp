@@ -55,6 +55,8 @@ import {
 
 @Component
 export default class Tickets extends Vue {
+
+  //define and initialize properties for tickets
   @Prop() readonly editMode!: boolean;
   @Prop() readonly movieName!: string;
   @Prop() readonly dateOfPurchase!: string;
@@ -63,26 +65,30 @@ export default class Tickets extends Vue {
   @Prop() readonly movieTime!: string;
   @Prop() readonly printMode = true;
   @Prop() readonly theaterNumber!: number;
+  @Prop() readonly ticketID!: string;
   
+  //define and initialize seat number to be a random number generated
   private seatNumber = Math.ceil(Math.random() * (100));
 
-
-  @Prop() readonly ticketID!: string;
-
-  // @Prop() readonly imageurl!: string;
-  readonly $appDB!: FirebaseFirestore;
-  readonly $appAuth!: FirebaseAuth;
-  private userUID: string | undefined = "";
+  //define and intializing ticket info
   private showModal = false;
   private tempTickets = 1;
+  private userUID: string | undefined = "";
 
+  //QR code
   readonly imageurl =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png";
 
+  //define firestore and authentication
+  readonly $appDB!: FirebaseFirestore;
+  readonly $appAuth!: FirebaseAuth;
+  
+  //setting the userUID on creation
   created() {
     this.userUID = this.$appAuth.currentUser?.uid;
   }
 
+  //enabling user to delete cancellation
   handleDelete() {
     this.$appDB.collection(`users/${this.userUID}/purchases`)
     .doc(this.ticketID)
@@ -93,8 +99,9 @@ export default class Tickets extends Vue {
     .catch((err: any) => {
       alert("There was an error cancelling your reservation.");
       })
-
   }
+
+  //enabling user to edit existing reservations
   handleEdit() {
     this;
     this.$appDB
@@ -106,7 +113,6 @@ export default class Tickets extends Vue {
         },
         { merge: true }
       );
-
     alert("Tickets updated, amount reflected on your credit card")
   }
 }

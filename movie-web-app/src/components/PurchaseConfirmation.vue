@@ -20,7 +20,10 @@ import { Vue, Component, Prop } from "vue-property-decorator";
   components: {
   },
 })
+
 export default class PurchaseConfirmation extends Vue {
+
+  //define and intialize movie information for purchase confirmation
   private movieName = "";
   private dateOfPurchase = "";
   private movieDate = "";
@@ -29,10 +32,11 @@ export default class PurchaseConfirmation extends Vue {
   private totalAmount = 0;
   private purchaseID = "";
 
-
+  //define router
   readonly $router;
   readonly $route;
 
+  //route user to print ticket page when button is clicked
   print() {
     this.$router.replace({
       name: "Print Ticket",
@@ -42,6 +46,7 @@ export default class PurchaseConfirmation extends Vue {
     });
   }
 
+  //movie information that is passed as params when created
   created() {
     this.dateOfPurchase = new Date(Date.now()).toDateString();
     this.purchaseID = this.$route.params.purchaseID;

@@ -52,6 +52,7 @@ import axios, { AxiosResponse } from "axios";
     Movie,
   },
 })
+
 export default class BrowseMovies extends Vue {
   // Define and initialize movie list
   private movieList: any[] = [];
@@ -80,20 +81,24 @@ export default class BrowseMovies extends Vue {
     this.loadMovies();
   }
 
+
   onSubmit(event): void {
     event.preventDefault();
     this.loadMovies();
   }
+
   // Load movies to be displayed
   loadMovies(): void {
     // Reset movie list
     let params: any = {};
     this.movieList = [];
 
+    //default search for year 2021
     if (this.search == '') {
       params.y = "2021";
     }
 
+    //api request for browsing movies
     params.s = this.search != '' ? this.search : 'sweet';
     axios
       .get("http://www.omdbapi.com/?apikey=91906364", {

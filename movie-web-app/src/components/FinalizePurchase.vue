@@ -32,7 +32,10 @@ import * as uuid from "uuid";
 @Component({
   components: {},
 })
+
 export default class FinalizePurchase extends Vue {
+
+  //define and initialize movie information
   private movieName = "";
   private numTickets = 0;
   private movieTime = "";
@@ -41,11 +44,13 @@ export default class FinalizePurchase extends Vue {
   private dateOfPurchase = "";
   private purchaseID = -1;
 
+  //defining routing and authentication
   readonly $route;
   readonly $router;
   readonly $appDB;
   readonly $appAuth;
 
+  //setting user id for firebase
   private userUID = 0;
 
   purchase() {
@@ -64,7 +69,8 @@ export default class FinalizePurchase extends Vue {
           purchaseID: this.purchaseID,
         });
     }
-
+    
+    //route user to the purchase confirmation page
     this.$router.replace({
       name: "Purchase Confirmation",
       params: {
@@ -76,28 +82,29 @@ export default class FinalizePurchase extends Vue {
       },
     });
 
+    //validation if the credit card number includes spaces
     if (this.creditCardNumber.indexOf(' ') >= 0) {
       alert("Credit card number cannot include spaces");
       this.$router.replace({ path: "/finalize" });
       this.creditCardNumber = "";
     }
 
+    //validation if the credit card number includes letters
     else if (isNaN(Number(this.creditCardNumber))) {
       alert("Credit card number cannot include letters");
       this.$router.replace({ path: "/finalize" });
       this.creditCardNumber = "";
     }
 
+    //validation if the credit card length is less than 13 digits
     else if (this.creditCardNumber.length < 13) {
       alert("Credit card number must be at least 13 numbers");
       this.$router.replace({ path: "/finalize" });
       this.creditCardNumber = "";
-    }
-
-
-    
+    }    
   }
 
+  //route the user back to the browse movies page
   backToBrowse() {
     this.$router.back();
   }

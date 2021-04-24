@@ -38,6 +38,8 @@ import VueRouter from "vue-router";
 
 @Component
 export default class Movie extends Vue {
+
+  //define and initialize properties for the movie
   @Prop() private movieYear!: string;
   @Prop() private showDate!: Date;
   @Prop() private movie!: any;
@@ -47,6 +49,8 @@ export default class Movie extends Vue {
     minutes: ["15", "30", "45", "00"],
     time: ["AM", "PM"],
   };
+
+  //define and initialize movie arrays
   private movieTimes: any[] = [];
   private movieDetails: any = {};
   private selectedTime!: string;

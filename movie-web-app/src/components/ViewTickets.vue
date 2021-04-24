@@ -27,17 +27,20 @@ import Tickets from "./Tickets.vue";
     Tickets,
   },
 })
+
 export default class ViewTickets extends Vue {
+
+  //defining firestore and authentication
   readonly $appDB!: FirebaseFirestore;
   readonly $appAuth!: FirebaseAuth;
 
+  //define and intializing tickets array and userUID
   private tickets: any[] = [];
   private userUID = "-1";
 
+  //pushing data from firestore into tickets array upon creation
   created() {
     this.userUID = this.$appAuth.currentUser?.uid ?? "-1";
-    // this.userUID = this.$appAuth.currentUser?.uid ?? "none";
-
     this.$appDB
       .collection(`users/${this.userUID}/purchases`)
       .get()

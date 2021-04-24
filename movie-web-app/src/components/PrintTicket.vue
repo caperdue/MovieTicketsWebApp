@@ -22,8 +22,6 @@ import {FirebaseFirestore} from "@firebase/firestore-types";
 import { FirebaseAuth } from "@firebase/auth-types";
 import VueRouter,{ RouteConfig, RouterMode } from "vue-router";
 
-
-
 @Component({
   components: {
     Tickets, 
@@ -32,18 +30,19 @@ import VueRouter,{ RouteConfig, RouterMode } from "vue-router";
 
 export default class PrintTicket extends Vue {
 
+  //define and intialize print ticket info
   private tickets: any[] = [];
   private userUID: string | undefined;
   private purchaseID = "";
-
   private theatreNumber = Math.ceil(Math.random() * (100));
 
-
+  //define route and authentication
   readonly $appAuth!: FirebaseAuth;
   readonly $appDB!: FirebaseFirestore;
   readonly $router;
   readonly $route;
 
+  //movie information loaded on the screen on creation
    created() {
     this.purchaseID = this.$route.params.purchaseID;
     this.userUID = this.$appAuth.currentUser?.uid;
@@ -62,12 +61,11 @@ export default class PrintTicket extends Vue {
       });  
   }
 
+  //route user back to browse movies when button is clicked
   browse() {
     this.$router.replace({ path: "/browse" });
   }
   
-
-
 }
 
 </script>
