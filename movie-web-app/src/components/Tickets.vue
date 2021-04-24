@@ -65,7 +65,6 @@ export default class Tickets extends Vue {
   @Prop() readonly theaterNumber!: number;
   
   private seatNumber = Math.ceil(Math.random() * (100));
-  // private theatreNumber = Math.ceil(Math.random() * (100));
 
 
   @Prop() readonly ticketID!: string;
