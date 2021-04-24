@@ -63,16 +63,12 @@ export default class PurchaseConfirmation extends Vue {
 
 <style scoped>
 
-#purchaseConfirmation {
-  text-align:center;
-}
+
 #movies {
-  display: inline-block;
   border: 2px solid;
   border-radius: 0.5em;
   padding: 1em;
-  margin: 0.6em;
-  text-align: left;
+  font-size: 1.50em;
 }
 
 h3 {
@@ -80,7 +76,7 @@ h3 {
 }
 
 #movieName {
-  font-size: 20px;
+  font-size: 1.25em;
 }
 
 </style>

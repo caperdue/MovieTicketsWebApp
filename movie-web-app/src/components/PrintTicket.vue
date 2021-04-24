@@ -71,13 +71,6 @@ export default class PrintTicket extends Vue {
 </script>
 
 <style scoped>
-#ticketContent {
-  display: inline-block;
-  border-radius: 0.5em;
-  padding: 1em;
-  margin: 0.6em;
-  width: 50%;
-}
 
 div {
     overflow: hidden;
