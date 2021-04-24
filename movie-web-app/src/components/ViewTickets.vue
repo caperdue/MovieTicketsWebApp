@@ -39,7 +39,7 @@ export default class ViewTickets extends Vue {
   private userUID = "-1";
 
   //pushing data from firestore into tickets array upon creation
-  created() {
+  created(): void {
     this.userUID = this.$appAuth.currentUser?.uid ?? "-1";
     this.$appDB
       .collection(`users/${this.userUID}/purchases`)

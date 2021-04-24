@@ -84,12 +84,12 @@ export default class Tickets extends Vue {
   readonly $appAuth!: FirebaseAuth;
   
   //setting the userUID on creation
-  created() {
+  created(): void {
     this.userUID = this.$appAuth.currentUser?.uid;
   }
 
   //enabling user to delete cancellation
-  handleDelete() {
+  handleDelete(): void {
     this.$appDB.collection(`users/${this.userUID}/purchases`)
     .doc(this.ticketID)
     .delete()
@@ -102,7 +102,7 @@ export default class Tickets extends Vue {
   }
 
   //enabling user to edit existing reservations
-  handleEdit() {
+  handleEdit(): void {
     this;
     this.$appDB
       .collection(`users/${this.userUID}/purchases`)

@@ -37,7 +37,7 @@ export default class PurchaseConfirmation extends Vue {
   readonly $route;
 
   //route user to print ticket page when button is clicked
-  print() {
+  print(): void {
     this.$router.replace({
       name: "Print Ticket",
       params: {
@@ -47,7 +47,7 @@ export default class PurchaseConfirmation extends Vue {
   }
 
   //movie information that is passed as params when created
-  created() {
+  created(): void {
     this.dateOfPurchase = new Date(Date.now()).toDateString();
     this.purchaseID = this.$route.params.purchaseID;
     this.movieName = this.$route.params.name;

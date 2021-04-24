@@ -43,7 +43,7 @@ export default class PrintTicket extends Vue {
   readonly $route;
 
   //movie information loaded on the screen on creation
-   created() {
+   created(): void {
     this.purchaseID = this.$route.params.purchaseID;
     this.userUID = this.$appAuth.currentUser?.uid;
     this.$appDB
@@ -62,7 +62,7 @@ export default class PrintTicket extends Vue {
   }
 
   //route user back to browse movies when button is clicked
-  browse() {
+  browse(): void {
     this.$router.replace({ path: "/browse" });
   }
   

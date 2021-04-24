@@ -53,7 +53,7 @@ export default class FinalizePurchase extends Vue {
   //setting user id for firebase
   private userUID = 0;
 
-  purchase() {
+  purchase(): void {
     if (this.numTickets > 0 && this.creditCardNumber) {
       //Send the tickets to the database
       this.$appDB
@@ -105,11 +105,11 @@ export default class FinalizePurchase extends Vue {
   }
 
   //route the user back to the browse movies page
-  backToBrowse() {
+  backToBrowse(): void {
     this.$router.back();
   }
 
-  created() {
+  created(): void {
     // Get the parameters to pass along movie information
     this.purchaseID = uuid.v1();
     this.movieName = this.$route.params.name;
