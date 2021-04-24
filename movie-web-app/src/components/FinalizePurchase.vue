@@ -14,7 +14,7 @@
         <option v-for="(n, pos) in 10" :key="pos">{{ n }}</option>
       </select>
       <h5 class="mt-3">Credit Card Number</h5>
-      <input v-model="creditCardNumber" type="text" />
+      <input v-model="creditCardNumber" type="text" maxlength="19"/>
       <div class="mt-3 mb-3">
         <b-button @click="purchase" class="mr-3" variant="primary"
           >Purchase</b-button
@@ -81,11 +81,19 @@ export default class FinalizePurchase extends Vue {
       this.$router.replace({ path: "/finalize" });
       this.creditCardNumber = "";
     }
-    if (isNaN(Number(this.creditCardNumber))) {
+
+    else if (isNaN(Number(this.creditCardNumber))) {
       alert("Credit card number cannot include letters");
       this.$router.replace({ path: "/finalize" });
       this.creditCardNumber = "";
     }
+
+    else if (this.creditCardNumber.length < 13) {
+      alert("Credit card number must be at least 13 numbers");
+      this.$router.replace({ path: "/finalize" });
+      this.creditCardNumber = "";
+    }
+
 
     
   }
