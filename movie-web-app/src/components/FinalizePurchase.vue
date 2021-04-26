@@ -28,6 +28,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import * as uuid from "uuid";
+import firebase from 'firebase';
 
 @Component({
   components: {},
@@ -68,6 +69,12 @@ export default class FinalizePurchase extends Vue {
           purchaseDate: this.dateOfPurchase,
           purchaseID: this.purchaseID,
         });
+
+        //Update the ticket purchase count for realtime updates
+        this.$appDB
+        .collection("tickets")
+        .doc("purchaseInfo")
+        .update("totalPurchases", firebase.firestore.FieldValue.increment(this.numTickets));
     }
     
     //route user to the purchase confirmation page

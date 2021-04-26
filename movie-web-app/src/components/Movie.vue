@@ -3,7 +3,7 @@
     <b-card class="movie">
       <b-media right-align vertical-align="center">
         <template #aside>
-          <b-img class="mt-0" :src="movie.Poster"></b-img>
+          <img class="mt-0" :src="movie.Poster" @error="setAlternativeImg"/>
         </template>
         <h5 class="mt-0 mb-2">{{ movie.Title }}</h5>
         <h6 class="pt-3">View Times</h6>
@@ -75,8 +75,15 @@ export default class Movie extends Vue {
         time: this.selectedTime,
       },
     });
+
   }
 
+  /*
+   * Sets an alternative image if none available.
+   */
+  setAlternativeImg(event):void {
+    event.target.src = "https://th.bing.com/th/id/OIP.XWEiuLa5nzkPdQYvEFAt2gAAAA?pid=ImgDet&rs=1"
+  }
   /*
    * Gets details of movie hovered over.
    */ 

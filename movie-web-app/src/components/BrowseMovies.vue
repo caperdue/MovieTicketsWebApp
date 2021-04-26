@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-badge class="searchMovie" variant="light">Total tickets sold at Star Cinema: {{totalPurchased}}</b-badge><br>
     <b-nav-form @submit="onSubmit" class="searchMovie">
       <b-form-input
         size="sm"
@@ -10,8 +11,12 @@
       <b-button size="sm" class="my-2 my-sm-2" type="submit">Search</b-button>
       <b-button
         v-if="search"
-        @click="() => {this.search = ''
-        loadMovies()}"
+        @click="
+          () => {
+            this.search = '';
+            loadMovies();
+          }
+        "
         size="sm"
         class="ml-2"
         type="cancel"
@@ -52,11 +57,10 @@ import axios, { AxiosResponse } from "axios";
     Movie,
   },
 })
-
 export default class BrowseMovies extends Vue {
   // Define and initialize movie list
   private movieList: any[] = [];
-  private search = '';
+  private search = "";
 
   //Set limit and selected date to tomorrow by default.
   private today = new Date(Date.now());
@@ -71,17 +75,29 @@ export default class BrowseMovies extends Vue {
       : this.tomorrow.getDate()
   }`;
   private dateLimit = this.selectedDate;
+  private totalPurchased = 0;
 
   // Reference for authentication
   readonly $appAuth;
   readonly $route;
+  readonly $appDB;
 
   mounted(): void {
     // Get the list of movies for viewing
     this.loadMovies();
+
+    //Listen for realtime updates to display shared data of total bought tickets.
+    this.getTotalPurchased();
   }
 
-
+  getTotalPurchased(): void {
+    this.$appDB.collection(`tickets`)
+    .doc("purchaseInfo")
+      .onSnapshot((doc) => {
+        this.totalPurchased = doc.data().totalPurchases;
+      
+      });
+  }
   onSubmit(event): void {
     event.preventDefault();
     this.loadMovies();
@@ -94,12 +110,12 @@ export default class BrowseMovies extends Vue {
     this.movieList = [];
 
     //default search for year 2021
-    if (this.search == '') {
+    if (this.search == "") {
       params.y = "2021";
     }
 
     //api request for browsing movies
-    params.s = this.search != '' ? this.search : 'sweet';
+    params.s = this.search != "" ? this.search : "Great";
     axios
       .get("http://www.omdbapi.com/?apikey=91906364", {
         params,
