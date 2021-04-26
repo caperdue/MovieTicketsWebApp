@@ -117,7 +117,7 @@ export default class BrowseMovies extends Vue {
     //api request for browsing movies
     params.s = this.search != "" ? this.search : "Great";
     axios
-      .get("http://www.omdbapi.com/?apikey=91906364", {
+      .get("https://www.omdbapi.com/?apikey=91906364", {
         params,
       })
       .then((r: AxiosResponse) => {
