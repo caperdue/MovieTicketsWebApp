@@ -89,7 +89,7 @@ export default class Movie extends Vue {
    */ 
   getDetails(): void {
     axios
-      .get("http://www.omdbapi.com/?apikey=91906364", {
+      .get("https://www.omdbapi.com/?apikey=91906364", {
         params: {
           i: this.movie.imdbID,
         },
